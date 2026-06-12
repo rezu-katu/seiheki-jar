@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>レズビアン向け性癖の瓶 ver1.0</title>
+  <title>レズビアン向け性癖の瓶</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,10 +11,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 
   <!-- OGP -->
-  <meta property="og:title" content="レズビアン向け性癖の瓶 ver1.0">
-  <meta property="og:description" content="自分の好みを「瓶」に塗って共有できる自己表現ツールです。">
+  <meta property="og:title" content="レズビアン向け性癖の瓶">
+  <meta property="og:description" content="自分の好みを「瓶」に注いで共有できる自己表現ツールです。">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://REPLACE-AFTER-DEPLOY.netlify.app/">
+  <meta property="og:url" content="https://kusataka.github.io/seiheki-jar/">
   <meta name="twitter:card" content="summary">
 
   <link rel="stylesheet" href="style.css">
@@ -24,13 +24,13 @@
 <!-- ヘッダー -->
 <header class="site-header">
   <div class="container">
-    <h1>レズビアン向け<br>性癖の瓶 ver1.0</h1>
+    <h1>レズビアン向け<br>性癖の瓶</h1>
     <div class="legend">
-      <span class="legend-do">したいこと</span>は青く塗る ／
-      <span class="legend-recv">されたいこと</span>は赤く塗る<br>
+      <span class="legend-do">したいこと</span>は青く注ぐ ／
+      <span class="legend-recv">されたいこと</span>は赤く注ぐ<br>
       <span class="legend-both-text">両方</span>は左半分青・右半分赤 ／
       <span style="font-weight:700;">×</span>はNGプレイ<br>
-      塗りの高さ＝気持ちの強さ（1〜5）／ 空白は可もなく不可もなく
+      水位の高さ＝気持ちの強さ（1〜5）／ 空白は可もなく不可もなく
     </div>
     <p class="age-notice">※18歳未満は利用できません</p>
   </div>
@@ -128,7 +128,7 @@
     <!-- セクション3: 瓶を塗る -->
     <section class="section" aria-labelledby="sec3-title">
       <h2 class="section-title" id="sec3-title">瓶を塗る</h2>
-      <p style="font-size:0.78rem;color:#888;margin-bottom:12px;">瓶をタップして好みを設定してね</p>
+      <p class="jar-help">瓶をタップして好みを設定してね</p>
       <div class="jar-grid" id="jar-grid" role="list">
         <!-- main.js で動的生成 -->
       </div>
@@ -183,13 +183,26 @@
     <button class="btn-type" id="type-clear" data-type="clear" type="button">クリア</button>
   </div>
 
-  <div class="sheet-section-label">強さ</div>
-  <div class="level-buttons" role="group" aria-label="強さを選ぶ">
-    <button class="btn-level" data-level="1" type="button">1</button>
-    <button class="btn-level" data-level="2" type="button">2</button>
-    <button class="btn-level" data-level="3" type="button">3</button>
-    <button class="btn-level" data-level="4" type="button">4</button>
-    <button class="btn-level" data-level="5" type="button">5</button>
+  <div class="level-panel" id="do-level-panel" data-level-kind="do">
+    <div class="sheet-section-label level-title-do">したい強さ</div>
+    <div class="level-buttons" role="group" aria-label="したい強さを選ぶ">
+      <button class="btn-level" data-level-kind="do" data-level="1" type="button">1</button>
+      <button class="btn-level" data-level-kind="do" data-level="2" type="button">2</button>
+      <button class="btn-level" data-level-kind="do" data-level="3" type="button">3</button>
+      <button class="btn-level" data-level-kind="do" data-level="4" type="button">4</button>
+      <button class="btn-level" data-level-kind="do" data-level="5" type="button">5</button>
+    </div>
+  </div>
+
+  <div class="level-panel" id="recv-level-panel" data-level-kind="recv">
+    <div class="sheet-section-label level-title-recv">されたい強さ</div>
+    <div class="level-buttons" role="group" aria-label="されたい強さを選ぶ">
+      <button class="btn-level" data-level-kind="recv" data-level="1" type="button">1</button>
+      <button class="btn-level" data-level-kind="recv" data-level="2" type="button">2</button>
+      <button class="btn-level" data-level-kind="recv" data-level="3" type="button">3</button>
+      <button class="btn-level" data-level-kind="recv" data-level="4" type="button">4</button>
+      <button class="btn-level" data-level-kind="recv" data-level="5" type="button">5</button>
+    </div>
   </div>
 </div>
 
