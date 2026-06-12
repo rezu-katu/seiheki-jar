@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "seiheki-jar",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-p", "3456", "site"],
+      "port": 3456
+    }
+  ]
+}
