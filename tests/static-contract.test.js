@@ -18,6 +18,7 @@ assert.match(html, /id="do-level-panel"/);
 assert.match(html, /id="recv-level-panel"/);
 assert.match(css, /grid-template-columns:\s*repeat\(4,\s*1fr\)/);
 assert.match(css, /--col-bg:\s*#0f0c10/i);
+assert.match(js, /#性癖の瓶 #レズビアン向け性癖の瓶/);
 assert.doesNotMatch(js, /state\.level/);
 
 console.log("static contract ok");
