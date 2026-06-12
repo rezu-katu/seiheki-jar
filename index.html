@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>レズビアン向け性癖の瓶 ver1.0</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+
+  <!-- OGP -->
+  <meta property="og:title" content="レズビアン向け性癖の瓶 ver1.0">
+  <meta property="og:description" content="自分の好みを「瓶」に塗って共有できる自己表現ツールです。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://REPLACE-AFTER-DEPLOY.netlify.app/">
+  <meta name="twitter:card" content="summary">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="site-header">
+  <div class="container">
+    <h1>レズビアン向け<br>性癖の瓶 ver1.0</h1>
+    <div class="legend">
+      <span class="legend-do">したいこと</span>は青く塗る ／
+      <span class="legend-recv">されたいこと</span>は赤く塗る<br>
+      <span class="legend-both-text">両方</span>は左半分青・右半分赤 ／
+      <span style="font-weight:700;">×</span>はNGプレイ<br>
+      塗りの高さ＝気持ちの強さ（1〜5）／ 空白は可もなく不可もなく
+    </div>
+    <p class="age-notice">※18歳未満は利用できません</p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- セクション1: わたしのこと -->
+    <section class="section" aria-labelledby="sec1-title">
+      <h2 class="section-title" id="sec1-title">わたしのこと</h2>
+
+      <div class="chip-group">
+        <div class="chip-group-label">属性</div>
+        <div class="chip-list" role="group" aria-label="属性" data-group="attr" data-multi="false">
+          <button class="chip" data-value="タチ">タチ</button>
+          <button class="chip" data-value="リバ">リバ</button>
+          <button class="chip" data-value="ネコ">ネコ</button>
+          <button class="chip" data-value="ひみつ">ひみつ</button>
+        </div>
+      </div>
+
+      <div class="chip-group">
+        <div class="chip-group-label">見た目</div>
+        <div class="chip-list" role="group" aria-label="見た目" data-group="look" data-multi="false">
+          <button class="chip" data-value="フェム">フェム</button>
+          <button class="chip" data-value="ボーイッシュ">ボーイッシュ</button>
+          <button class="chip" data-value="中性的">中性的</button>
+          <button class="chip" data-value="ひみつ">ひみつ</button>
+        </div>
+      </div>
+
+      <div class="chip-group">
+        <div class="chip-group-label">年齢</div>
+        <div class="chip-list" role="group" aria-label="年齢" data-group="age" data-multi="false">
+          <button class="chip" data-value="18-19">18-19</button>
+          <button class="chip" data-value="20代前半">20代前半</button>
+          <button class="chip" data-value="20代後半">20代後半</button>
+          <button class="chip" data-value="30代前半">30代前半</button>
+          <button class="chip" data-value="30代後半">30代後半</button>
+          <button class="chip" data-value="40代〜">40代〜</button>
+          <button class="chip" data-value="ひみつ">ひみつ</button>
+        </div>
+      </div>
+
+      <div class="chip-group">
+        <div class="chip-group-label">住まい</div>
+        <div class="chip-list" role="group" aria-label="住まい" data-group="area" data-multi="false">
+          <button class="chip" data-value="北海道・東北">北海道・東北</button>
+          <button class="chip" data-value="関東">関東</button>
+          <button class="chip" data-value="中部">中部</button>
+          <button class="chip" data-value="近畿">近畿</button>
+          <button class="chip" data-value="中国・四国">中国・四国</button>
+          <button class="chip" data-value="九州・沖縄">九州・沖縄</button>
+          <button class="chip" data-value="ひみつ">ひみつ</button>
+        </div>
+      </div>
+
+      <div class="chip-group">
+        <div class="chip-group-label">Xでの目的</div>
+        <div class="chip-list" role="group" aria-label="Xでの目的" data-group="purpose" data-multi="false">
+          <button class="chip" data-value="積極的に会いたい">積極的に会いたい</button>
+          <button class="chip" data-value="気が合えば会いたい">気が合えば会いたい</button>
+          <button class="chip" data-value="まずは仲良くなりたい">まずは仲良くなりたい</button>
+          <button class="chip" data-value="見る専・公開のみ">見る専・公開のみ</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- セクション2: 相手にもとめること -->
+    <section class="section" aria-labelledby="sec2-title">
+      <h2 class="section-title" id="sec2-title">相手にもとめること</h2>
+
+      <div class="chip-group">
+        <div class="chip-group-label">属性（複数選択可）</div>
+        <div class="chip-list" role="group" aria-label="求める属性" data-group="want-attr" data-multi="true">
+          <button class="chip" data-value="タチ">タチ</button>
+          <button class="chip" data-value="リバ">リバ</button>
+          <button class="chip" data-value="ネコ">ネコ</button>
+          <button class="chip" data-value="こだわらない">こだわらない</button>
+        </div>
+      </div>
+
+      <div class="chip-group">
+        <div class="chip-group-label">見た目（複数選択可）</div>
+        <div class="chip-list" role="group" aria-label="求める見た目" data-group="want-look" data-multi="true">
+          <button class="chip" data-value="フェム">フェム</button>
+          <button class="chip" data-value="ボーイッシュ">ボーイッシュ</button>
+          <button class="chip" data-value="中性的">中性的</button>
+          <button class="chip" data-value="こだわらない">こだわらない</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- セクション3: 瓶を塗る -->
+    <section class="section" aria-labelledby="sec3-title">
+      <h2 class="section-title" id="sec3-title">瓶を塗る</h2>
+      <p style="font-size:0.78rem;color:#888;margin-bottom:12px;">瓶をタップして好みを設定してね</p>
+      <div class="jar-grid" id="jar-grid" role="list">
+        <!-- main.js で動的生成 -->
+      </div>
+    </section>
+
+    <!-- 生成セクション -->
+    <section class="generate-section">
+      <button class="btn-generate" id="btn-generate" type="button">画像を作る</button>
+      <div class="preview-area" id="preview-area">
+        <img id="preview-img" alt="生成された性癖の瓶画像">
+        <div class="share-buttons">
+          <button class="btn-share btn-x" id="btn-x" type="button">Xでポストする</button>
+          <button class="btn-share btn-save" id="btn-save" type="button">画像を保存する</button>
+        </div>
+        <p class="share-hint" id="share-hint">
+          画像が保存されたよ！<br>Xの投稿画面が開いたら画像を添付してね 📎
+        </p>
+      </div>
+    </section>
+
+  </div><!-- /container -->
+</main>
+
+<!-- フッター -->
+<footer class="site-footer">
+  <div id="footer-credit"></div>
+</footer>
+
+<!-- ボトムシート -->
+<div class="bottom-sheet-overlay" id="sheet-overlay" role="presentation" aria-hidden="true"></div>
+<div class="bottom-sheet" id="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <div class="bottom-sheet-handle" aria-hidden="true"></div>
+  <div class="bottom-sheet-header">
+    <span class="bottom-sheet-title" id="sheet-title">瓶のタイトル</span>
+    <button class="btn-close" id="btn-close-sheet" aria-label="閉じる">×</button>
+  </div>
+
+  <div class="sheet-section-label">種別</div>
+  <div class="type-buttons" role="group" aria-label="種別を選ぶ">
+    <button class="btn-type" id="type-do"    data-type="do"   type="button">
+      <span class="dot dot-do" aria-hidden="true"></span>したい
+    </button>
+    <button class="btn-type" id="type-recv"  data-type="recv" type="button">
+      <span class="dot dot-recv" aria-hidden="true"></span>されたい
+    </button>
+    <button class="btn-type" id="type-both"  data-type="both" type="button">
+      <span class="dot dot-both" aria-hidden="true"></span>両方
+    </button>
+    <button class="btn-type" id="type-ng"    data-type="ng"   type="button">
+      <span class="dot dot-ng" aria-hidden="true"></span>NG
+    </button>
+    <button class="btn-type" id="type-clear" data-type="clear" type="button">クリア</button>
+  </div>
+
+  <div class="sheet-section-label">強さ</div>
+  <div class="level-buttons" role="group" aria-label="強さを選ぶ">
+    <button class="btn-level" data-level="1" type="button">1</button>
+    <button class="btn-level" data-level="2" type="button">2</button>
+    <button class="btn-level" data-level="3" type="button">3</button>
+    <button class="btn-level" data-level="4" type="button">4</button>
+    <button class="btn-level" data-level="5" type="button">5</button>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
