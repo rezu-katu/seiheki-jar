@@ -122,7 +122,8 @@ body {
 }
 
 .chip {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   padding: 6px 12px;
   border-radius: var(--radius-pill);
   border: 1.5px solid var(--col-chip-border);
@@ -135,8 +136,6 @@ body {
   transition: background 0.15s, color 0.15s, border-color 0.15s;
   min-height: 34px;
   line-height: 1;
-  display: flex;
-  align-items: center;
   user-select: none;
 }
 
