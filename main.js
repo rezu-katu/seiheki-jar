@@ -2,7 +2,7 @@
 const SITE_URL   = "https://rezu-katu.github.io/seiheki-jar/";
 const CREDIT     = "制作：レズセがしたい女性の応援垢（@rezu_katu）";
 const CREDIT_X_URL = "https://x.com/rezu_katu";
-const HASHTAG    = "#性癖の瓶";
+const HASHTAG    = "#性癖の瓶 #レズビアン向け性癖の瓶";
 
 // Canvas描画用カラー定数（CSS変数と同期）
 const COL_DO   = "#4A90D9";
