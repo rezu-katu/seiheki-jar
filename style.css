@@ -378,7 +378,7 @@ body {
 .btn-type {
   flex: 1;
   min-width: 0;
-  padding: 10px 6px;
+  padding: 10px 3px;
   border-radius: 10px;
   border: 2px solid #E0E0E0;
   background: var(--col-card);
@@ -390,6 +390,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 5px;
+  white-space: nowrap;
   transition: border-color 0.12s, background 0.12s, color 0.12s;
   min-height: 44px;
   color: var(--col-ink);
