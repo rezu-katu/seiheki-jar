@@ -757,7 +757,7 @@ async function handleGenerate() {
 
 // ===== X投稿 =====
 async function handlePostX() {
-  const shareText = `レズビアン向け性癖の瓶、埋めてみた🫙\n\nみんなもここから作れるよ→ ${SITE_URL}\n\n${HASHTAG}`;
+  const shareText = `レズビアン向け性癖の瓶、埋めてみた🫙\n\nみんなもここから作れるよ→ ${SITE_URL}\n\n@rezu_katu\n${HASHTAG}`;
 
   if (!generatedBlob) {
     alert("先に「画像を作る」を押してね！");
