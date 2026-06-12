@@ -1,5 +1,5 @@
 // ===== 設定定数 =====
-const SITE_URL   = "https://kusataka.github.io/seiheki-jar/";
+const SITE_URL   = "https://rezu-katu.github.io/seiheki-jar/";
 const CREDIT     = "制作：レズセがしたい女性の応援垢（@rezu_katu）";
 const CREDIT_X_URL = "https://x.com/rezu_katu";
 const HASHTAG    = "#性癖の瓶";

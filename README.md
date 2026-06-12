@@ -21,7 +21,7 @@ seiheki-jar/
 
 公開URL:
 
-`https://kusataka.github.io/seiheki-jar/`
+`https://rezu-katu.github.io/seiheki-jar/`
 
 公開フォルダは `site/` のみです。`master` にソース一式を push し、`site/` を `gh-pages` ブランチへ subtree push して公開します。
 
