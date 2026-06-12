@@ -185,14 +185,19 @@ function openSheet(index) {
   overlay.classList.add("visible");
   overlay.setAttribute("aria-hidden", "false");
   sheet.removeAttribute("hidden");
+  sheet.setAttribute("aria-hidden", "false");
   document.getElementById("btn-close-sheet").focus();
 }
 
 // ===== ボトムシートを閉じる =====
 function closeSheet() {
   activeJarIndex = -1;
-  document.getElementById("sheet-overlay").classList.remove("visible");
-  document.getElementById("sheet-overlay").setAttribute("aria-hidden", "true");
+  const overlay = document.getElementById("sheet-overlay");
+  const sheet   = document.getElementById("bottom-sheet");
+  overlay.classList.remove("visible");
+  overlay.setAttribute("aria-hidden", "true");
+  // スクリーンリーダーにシートが非表示になったことを伝える
+  sheet.setAttribute("aria-hidden", "true");
   updateGridHighlight();
 }
 
@@ -636,15 +641,24 @@ async function handleGenerate() {
 
   try {
     const canvas = await generateImage();
-    canvas.toBlob(blob => {
-      generatedBlob = blob;
-      const url = URL.createObjectURL(blob);
-      const img = document.getElementById("preview-img");
-      img.src = url;
-      document.getElementById("preview-area").classList.add("visible");
-      // スクロールしてプレビューを表示
-      document.getElementById("preview-area").scrollIntoView({ behavior: "smooth", block: "start" });
-    }, "image/png");
+    // toBlob はコールバック形式なので Promise でラップして await する
+    // （await しないと finally がコールバック完了前に走りボタンが先に戻る）
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob(b => {
+        if (b === null) {
+          reject(new Error("toBlob が null を返しました（メモリ不足の可能性があります）"));
+        } else {
+          resolve(b);
+        }
+      }, "image/png");
+    });
+    generatedBlob = blob;
+    const url = URL.createObjectURL(blob);
+    const img = document.getElementById("preview-img");
+    img.src = url;
+    document.getElementById("preview-area").classList.add("visible");
+    // スクロールしてプレビューを表示
+    document.getElementById("preview-area").scrollIntoView({ behavior: "smooth", block: "start" });
   } catch(e) {
     alert("画像生成中にエラーが発生しました。\n" + e.message);
   } finally {
