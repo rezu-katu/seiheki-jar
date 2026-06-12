@@ -1,5 +1,5 @@
 // ===== 設定定数 =====
-const SITE_URL   = "https://REPLACE-AFTER-DEPLOY.netlify.app/";
+const SITE_URL   = "https://kusataka.github.io/seiheki-jar/";
 const CREDIT     = "制作：レズセがしたい女性の応援垢（@rezu_katu）";
 const CREDIT_X_URL = "https://x.com/rezu_katu";
 const HASHTAG    = "#性癖の瓶";
@@ -7,10 +7,14 @@ const HASHTAG    = "#性癖の瓶";
 // Canvas描画用カラー定数（CSS変数と同期）
 const COL_DO   = "#4A90D9";
 const COL_RECV = "#E2556B";
-const COL_NG   = "#888888";
-const COL_INK  = "#3A3A3A";
-const COL_BG   = "#FFFBF5";
-const COL_CARD = "#FFFFFF";
+const COL_NG   = "#A8A4A1";
+const COL_INK  = "#FFF5E8";
+const COL_BG   = "#0F0C10";
+const COL_BG_TOP = "#28141D";
+const COL_CARD = "rgba(247,238,232,0.075)";
+const COL_GOLD = "#F6D46B";
+const COL_GLASS = "#E7C6A0";
+const COL_MUTED = "rgba(247,238,232,0.72)";
 
 // ===== 瓶ラベル一覧（28個・4列×7行）=====
 const JAR_LABELS = [
@@ -24,8 +28,8 @@ const JAR_LABELS = [
 ];
 
 // ===== 瓶の状態管理 =====
-// 各要素: { type: null|"do"|"recv"|"both"|"ng", level: 1〜5 }
-const jarStates = JAR_LABELS.map(() => ({ type: null, level: 3 }));
+// 各要素: { type: null|"do"|"recv"|"both"|"ng", doLevel: 1〜5, recvLevel: 1〜5 }
+const jarStates = JAR_LABELS.map(() => ({ type: null, doLevel: 3, recvLevel: 3 }));
 
 // ===== チップ選択状態 =====
 // キー: data-group 属性値、値: 選択中の value の Set
@@ -68,98 +72,129 @@ function buildJarSVG(state) {
   svg.setAttribute("xmlns", NS);
   svg.setAttribute("aria-hidden", "true");
 
-  // clipPath定義
   const defs = document.createElementNS(NS, "defs");
-
-  // 本体パスをclipとして使う
   const clipId = "clip-body-" + Math.random().toString(36).slice(2);
   const clipPath = document.createElementNS(NS, "clipPath");
   clipPath.setAttribute("id", clipId);
   const clipPathShape = document.createElementNS(NS, "path");
-  clipPathShape.setAttribute("d", "M32 24 C32 32 18 36 18 52 L18 94 C18 107 29 113 50 113 C71 113 82 107 82 94 L82 52 C82 36 68 32 68 24 Z");
+  clipPathShape.setAttribute("d", jarBodyPathD());
   clipPath.appendChild(clipPathShape);
   defs.appendChild(clipPath);
   svg.appendChild(defs);
 
-  // 塗りの高さ計算（y=30〜111の範囲、高さ81）
-  const fillTop = 30;
-  const fillBottom = 111;
-  const fillHeight = fillBottom - fillTop; // 81
-  const level = (state.type && state.type !== "ng") ? state.level : 0;
-  const paintH = (level / 5) * fillHeight;
-  const paintY = fillBottom - paintH;
+  const glassBase = svgEl("path", {
+    d: jarBodyPathD(),
+    fill: "rgba(255,255,255,0.035)",
+    stroke: COL_GLASS,
+    "stroke-width": "4",
+    "stroke-linejoin": "round",
+  });
+  svg.appendChild(glassBase);
 
-  // 塗りを描く（type に応じて）
   if (state.type === "do" || state.type === "recv" || state.type === "both") {
+    const liquidGroup = svgEl("g", { "clip-path": `url(#${clipId})` });
     if (state.type === "both") {
-      // 左半分：青
-      const rectL = document.createElementNS(NS, "rect");
-      rectL.setAttribute("x", "18");
-      rectL.setAttribute("y", String(paintY));
-      rectL.setAttribute("width", "32");
-      rectL.setAttribute("height", String(paintH + 2));
-      rectL.setAttribute("fill", COL_DO);
-      rectL.setAttribute("clip-path", `url(#${clipId})`);
-      svg.appendChild(rectL);
-      // 右半分：赤
-      const rectR = document.createElementNS(NS, "rect");
-      rectR.setAttribute("x", "50");
-      rectR.setAttribute("y", String(paintY));
-      rectR.setAttribute("width", "32");
-      rectR.setAttribute("height", String(paintH + 2));
-      rectR.setAttribute("fill", COL_RECV);
-      rectR.setAttribute("clip-path", `url(#${clipId})`);
-      svg.appendChild(rectR);
+      appendLiquidSVG(liquidGroup, "do", state.doLevel, "left");
+      appendLiquidSVG(liquidGroup, "recv", state.recvLevel, "right");
     } else {
-      const rect = document.createElementNS(NS, "rect");
-      rect.setAttribute("x", "18");
-      rect.setAttribute("y", String(paintY));
-      rect.setAttribute("width", "64");
-      rect.setAttribute("height", String(paintH + 2));
-      rect.setAttribute("fill", state.type === "do" ? COL_DO : COL_RECV);
-      rect.setAttribute("clip-path", `url(#${clipId})`);
-      svg.appendChild(rect);
+      const level = state.type === "do" ? state.doLevel : state.recvLevel;
+      appendLiquidSVG(liquidGroup, state.type, level, "full");
     }
+    svg.appendChild(liquidGroup);
   }
 
-  // 本体アウトライン
-  const body = document.createElementNS(NS, "path");
-  body.setAttribute("d", "M32 24 C32 32 18 36 18 52 L18 94 C18 107 29 113 50 113 C71 113 82 107 82 94 L82 52 C82 36 68 32 68 24 Z");
-  body.setAttribute("fill", "none");
-  body.setAttribute("stroke", COL_INK);
-  body.setAttribute("stroke-width", "4");
-  body.setAttribute("stroke-linejoin", "round");
-  svg.appendChild(body);
+  if (state.type === "both") {
+    svg.appendChild(svgEl("line", {
+      x1: "50", y1: "31", x2: "50", y2: "109",
+      stroke: "rgba(247,238,232,0.28)",
+      "stroke-width": "2",
+    }));
+  }
 
-  // フタ
-  const lid = document.createElementNS(NS, "path");
-  lid.setAttribute("d", "M34 9 L66 9 C69 9 70 11 70 13 L70 19 L30 19 L30 13 C30 11 31 9 34 9 Z");
-  lid.setAttribute("fill", COL_BG);
-  lid.setAttribute("stroke", COL_INK);
-  lid.setAttribute("stroke-width", "4");
-  lid.setAttribute("stroke-linejoin", "round");
-  svg.appendChild(lid);
-
-  // NGの×印（左上→右下、右上→左下）
   if (state.type === "ng") {
-    const xLine1 = document.createElementNS(NS, "line");
-    xLine1.setAttribute("x1", "28"); xLine1.setAttribute("y1", "42");
-    xLine1.setAttribute("x2", "72"); xLine1.setAttribute("y2", "86");
-    xLine1.setAttribute("stroke", COL_NG);
-    xLine1.setAttribute("stroke-width", "8");
-    xLine1.setAttribute("stroke-linecap", "round");
-    svg.appendChild(xLine1);
-
-    const xLine2 = document.createElementNS(NS, "line");
-    xLine2.setAttribute("x1", "72"); xLine2.setAttribute("y1", "42");
-    xLine2.setAttribute("x2", "28"); xLine2.setAttribute("y2", "86");
-    xLine2.setAttribute("stroke", COL_NG);
-    xLine2.setAttribute("stroke-width", "8");
-    xLine2.setAttribute("stroke-linecap", "round");
-    svg.appendChild(xLine2);
+    svg.appendChild(svgEl("line", {
+      x1: "28", y1: "42", x2: "72", y2: "96",
+      stroke: COL_NG, "stroke-width": "9", "stroke-linecap": "round",
+    }));
+    svg.appendChild(svgEl("line", {
+      x1: "72", y1: "42", x2: "28", y2: "96",
+      stroke: COL_NG, "stroke-width": "9", "stroke-linecap": "round",
+    }));
   }
+
+  svg.appendChild(svgEl("rect", {
+    x: "30", y: "45", width: "8", height: "35", rx: "4",
+    fill: "rgba(255,255,255,0.23)",
+  }));
+  svg.appendChild(svgEl("path", {
+    d: jarBodyPathD(),
+    fill: "none",
+    stroke: COL_GLASS,
+    "stroke-width": "4",
+    "stroke-linejoin": "round",
+  }));
+  svg.appendChild(svgEl("rect", {
+    x: "34", y: "8", width: "32", height: "18", rx: "6",
+    fill: "#151014",
+    stroke: COL_GLASS,
+    "stroke-width": "4",
+  }));
 
   return svg;
+}
+
+function jarBodyPathD() {
+  return "M32 20 C32 30 18 34 18 51 L18 91 C18 108 30 115 50 115 C70 115 82 108 82 91 L82 51 C82 34 68 30 68 20 Z";
+}
+
+function svgEl(name, attrs) {
+  const el = document.createElementNS("http://www.w3.org/2000/svg", name);
+  Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, String(value)));
+  return el;
+}
+
+function levelToWaterY(level) {
+  const clamped = Math.max(1, Math.min(5, Number(level) || 3));
+  return 92 - ((clamped - 1) / 4) * 44;
+}
+
+function drawLiquidPath(level, side) {
+  const y = levelToWaterY(level);
+  const bottom = 121;
+  if (side === "left") {
+    return `M14 ${y} C24 ${y - 6} 38 ${y + 5} 50 ${y} L50 ${bottom} L14 ${bottom} Z`;
+  }
+  if (side === "right") {
+    return `M50 ${y} C62 ${y - 6} 74 ${y + 5} 86 ${y - 1} L86 ${bottom} L50 ${bottom} Z`;
+  }
+  return `M14 ${y} C27 ${y - 6} 38 ${y + 5} 50 ${y} C64 ${y - 5} 75 ${y + 4} 86 ${y - 2} L86 ${bottom} L14 ${bottom} Z`;
+}
+
+function drawWaterLinePath(level, side) {
+  const y = levelToWaterY(level);
+  if (side === "left") return `M14 ${y} C24 ${y - 6} 38 ${y + 5} 50 ${y}`;
+  if (side === "right") return `M50 ${y} C62 ${y - 6} 74 ${y + 5} 86 ${y - 1}`;
+  return `M14 ${y} C27 ${y - 6} 38 ${y + 5} 50 ${y} C64 ${y - 5} 75 ${y + 4} 86 ${y - 2}`;
+}
+
+function appendLiquidSVG(group, kind, level, side) {
+  const color = kind === "do" ? COL_DO : COL_RECV;
+  const lineColor = kind === "do" ? "#9BD2FF" : "#FFACBA";
+  group.appendChild(svgEl("path", { d: drawLiquidPath(level, side), fill: color }));
+  group.appendChild(svgEl("path", {
+    d: drawWaterLinePath(level, side),
+    fill: "none",
+    stroke: lineColor,
+    "stroke-width": "4",
+    "stroke-linecap": "round",
+  }));
+
+  if (side !== "right") {
+    group.appendChild(svgEl("circle", { cx: "38", cy: "82", r: "3", fill: "rgba(255,255,255,0.25)" }));
+  }
+  if (side !== "left") {
+    group.appendChild(svgEl("circle", { cx: "61", cy: "94", r: "2.4", fill: "rgba(255,255,255,0.22)" }));
+  }
 }
 
 // ===== ボトムシートを開く =====
@@ -174,7 +209,7 @@ function openSheet(index) {
   updateSheetTypeButtons(state.type);
 
   // 強さボタン更新
-  updateSheetLevelButtons(state.level, state.type);
+  updateSheetLevelButtons(state);
 
   // グリッドのハイライト更新
   updateGridHighlight();
@@ -220,15 +255,21 @@ function updateSheetTypeButtons(type) {
 }
 
 // ===== 強さボタンの表示更新 =====
-function updateSheetLevelButtons(level, type) {
-  const isActive = (type && type !== "ng");
+function updateSheetLevelButtons(state) {
+  const showDo = state.type === "do" || state.type === "both";
+  const showRecv = state.type === "recv" || state.type === "both";
+  document.getElementById("do-level-panel").classList.toggle("visible", showDo);
+  document.getElementById("recv-level-panel").classList.toggle("visible", showRecv);
+
   document.querySelectorAll(".btn-level").forEach(btn => {
     const lv = Number(btn.dataset.level);
+    const kind = btn.dataset.levelKind;
     btn.className = "btn-level";
-    if (!isActive) {
-      btn.classList.add("disabled");
-    } else if (lv === level) {
-      btn.classList.add("active");
+    if (kind === "do" && lv === state.doLevel) {
+      btn.classList.add("active-do");
+    }
+    if (kind === "recv" && lv === state.recvLevel) {
+      btn.classList.add("active-recv");
     }
   });
 }
@@ -309,12 +350,13 @@ function initSheet() {
       const state = jarStates[activeJarIndex];
       if (t === "clear") {
         state.type = null;
-        state.level = 3;
+        state.doLevel = 3;
+        state.recvLevel = 3;
       } else {
         state.type = t;
       }
       updateSheetTypeButtons(state.type);
-      updateSheetLevelButtons(state.level, state.type);
+      updateSheetLevelButtons(state);
       // グリッドの瓶を再描画
       refreshJarCell(activeJarIndex);
     });
@@ -326,13 +368,17 @@ function initSheet() {
       if (activeJarIndex < 0) return;
       const state = jarStates[activeJarIndex];
       const lv = Number(btn.dataset.level);
-      // type 未設定なら "do" にする
+      const kind = btn.dataset.levelKind;
       if (!state.type || state.type === "ng") {
-        state.type = "do";
+        state.type = kind;
         updateSheetTypeButtons(state.type);
       }
-      state.level = lv;
-      updateSheetLevelButtons(state.level, state.type);
+      if (state.type === "do" && kind === "recv") state.type = "both";
+      if (state.type === "recv" && kind === "do") state.type = "both";
+      if (kind === "do") state.doLevel = lv;
+      if (kind === "recv") state.recvLevel = lv;
+      updateSheetTypeButtons(state.type);
+      updateSheetLevelButtons(state);
       refreshJarCell(activeJarIndex);
     });
   });
@@ -433,8 +479,17 @@ async function generateImage() {
   const ctx = canvas.getContext("2d");
 
   // 背景
-  ctx.fillStyle = COL_BG;
+  const bg = ctx.createLinearGradient(0, 0, 0, CANVAS_H);
+  bg.addColorStop(0, COL_BG_TOP);
+  bg.addColorStop(0.48, COL_BG);
+  bg.addColorStop(1, "#09070A");
+  ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, CANVAS_H);
+  const glow = ctx.createRadialGradient(W / 2, 0, 0, W / 2, 0, 460);
+  glow.addColorStop(0, "rgba(128,36,66,0.72)");
+  glow.addColorStop(1, "rgba(128,36,66,0)");
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, W, 520);
 
   let y = PAD_TOP;
 
@@ -442,7 +497,7 @@ async function generateImage() {
   ctx.fillStyle = COL_INK;
   ctx.textAlign = "center";
   ctx.font = `900 52px 'Zen Maru Gothic', sans-serif`;
-  ctx.fillText("レズビアン向け性癖の瓶 ver1.0", W / 2, y + 52);
+  ctx.fillText("レズビアン向け性癖の瓶", W / 2, y + 52);
   y += 80;
 
   // 凡例（左揃えで色付き部分を measureText で連結）
@@ -470,8 +525,8 @@ async function generateImage() {
 
   y += 48;
   ctx.font = `500 24px 'Zen Maru Gothic', sans-serif`;
-  ctx.fillStyle = "#777";
-  ctx.fillText("塗りの高さ＝気持ちの強さ（1〜5）  空白は可もなく不可もなく", W / 2, y + 24);
+  ctx.fillStyle = "rgba(247,238,232,0.66)";
+  ctx.fillText("水位＝気持ちの強さ（1〜5）  空白は可もなく不可もなく", W / 2, y + 24);
   y += 52;
 
   // --- プロフィールブロック（白カード） ---
@@ -479,9 +534,9 @@ async function generateImage() {
   const profCardW = INNER;
   const profCardH = PROF_BLOCK_H - 20;
   roundRect(ctx, profCardX, y, profCardW, profCardH, 20);
-  ctx.fillStyle = COL_CARD;
+  ctx.fillStyle = "rgba(247,238,232,0.08)";
   ctx.fill();
-  ctx.strokeStyle = "#E8E8E8";
+  ctx.strokeStyle = "rgba(246,212,107,0.24)";
   ctx.lineWidth = 2;
   ctx.stroke();
 
@@ -539,7 +594,7 @@ async function generateImage() {
   // --- フッター ---
   ctx.textAlign = "center";
   ctx.font = `500 22px 'Zen Maru Gothic', sans-serif`;
-  ctx.fillStyle = "#AAAAAA";
+  ctx.fillStyle = "rgba(247,238,232,0.58)";
   ctx.fillText(CREDIT, W / 2, y + 28);
   ctx.fillText(SITE_URL, W / 2, y + 58);
 
@@ -556,42 +611,50 @@ function drawJarCanvas(ctx, state, x, y, w, h) {
   ctx.translate(x, y);
   ctx.scale(sx, sy);
 
-  // 本体パス（clipPathとして使う）
-  const bodyPath = new Path2D("M32 24 C32 32 18 36 18 52 L18 94 C18 107 29 113 50 113 C71 113 82 107 82 94 L82 52 C82 36 68 32 68 24 Z");
+  const bodyPath = new Path2D(jarBodyPathD());
 
-  // 塗り
-  const fillTop    = 30;
-  const fillBottom = 111;
-  const fillHeight = fillBottom - fillTop;
-  const level = (state.type && state.type !== "ng") ? state.level : 0;
-  const paintH = (level / 5) * fillHeight;
-  const paintY = fillBottom - paintH;
+  ctx.fillStyle = "rgba(255,255,255,0.035)";
+  ctx.fill(bodyPath);
+  ctx.strokeStyle = COL_GLASS;
+  ctx.lineWidth = 4;
+  ctx.lineJoin = "round";
+  ctx.stroke(bodyPath);
 
   if (state.type === "do" || state.type === "recv" || state.type === "both") {
     ctx.save();
     ctx.clip(bodyPath);
 
     if (state.type === "both") {
-      ctx.fillStyle = COL_DO;
-      ctx.fillRect(18, paintY, 32, paintH + 2);
-      ctx.fillStyle = COL_RECV;
-      ctx.fillRect(50, paintY, 32, paintH + 2);
+      drawLiquidCanvas(ctx, "do", state.doLevel, "left");
+      drawLiquidCanvas(ctx, "recv", state.recvLevel, "right");
     } else {
-      ctx.fillStyle = (state.type === "do") ? COL_DO : COL_RECV;
-      ctx.fillRect(18, paintY, 64, paintH + 2);
+      const level = state.type === "do" ? state.doLevel : state.recvLevel;
+      drawLiquidCanvas(ctx, state.type, level, "full");
     }
     ctx.restore();
   }
 
-  // 本体アウトライン
+  if (state.type === "both") {
+    ctx.strokeStyle = "rgba(247,238,232,0.28)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(50, 31);
+    ctx.lineTo(50, 109);
+    ctx.stroke();
+  }
+
+  // 本体アウトラインとハイライト
+  ctx.fillStyle = "rgba(255,255,255,0.23)";
+  roundRect(ctx, 30, 45, 8, 35, 4);
+  ctx.fill();
   ctx.strokeStyle = COL_INK;
-  ctx.lineWidth   = 4;
-  ctx.lineJoin    = "round";
+  ctx.strokeStyle = COL_GLASS;
+  ctx.lineWidth = 4;
+  ctx.lineJoin = "round";
   ctx.stroke(bodyPath);
 
-  // フタ
-  const lidPath = new Path2D("M34 9 L66 9 C69 9 70 11 70 13 L70 19 L30 19 L30 13 C30 11 31 9 34 9 Z");
-  ctx.fillStyle = COL_BG;
+  const lidPath = new Path2D("M34 8 L66 8 C69 8 70 11 70 14 L70 20 C70 23 68 26 65 26 L35 26 C32 26 30 23 30 20 L30 14 C30 11 31 8 34 8 Z");
+  ctx.fillStyle = "#151014";
   ctx.fill(lidPath);
   ctx.stroke(lidPath);
 
@@ -609,6 +672,31 @@ function drawJarCanvas(ctx, state, x, y, w, h) {
   }
 
   ctx.restore();
+}
+
+function drawLiquidCanvas(ctx, kind, level, side) {
+  const color = kind === "do" ? COL_DO : COL_RECV;
+  const lineColor = kind === "do" ? "#9BD2FF" : "#FFACBA";
+
+  ctx.fillStyle = color;
+  ctx.fill(new Path2D(drawLiquidPath(level, side)));
+
+  ctx.strokeStyle = lineColor;
+  ctx.lineWidth = 4;
+  ctx.lineCap = "round";
+  ctx.stroke(new Path2D(drawWaterLinePath(level, side)));
+
+  ctx.fillStyle = "rgba(255,255,255,0.25)";
+  if (side !== "right") {
+    ctx.beginPath();
+    ctx.arc(38, 82, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  if (side !== "left") {
+    ctx.beginPath();
+    ctx.arc(61, 94, 2.4, 0, Math.PI * 2);
+    ctx.fill();
+  }
 }
 
 // ===== roundRect ポリフィル =====

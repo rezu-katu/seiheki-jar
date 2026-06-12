@@ -8,7 +8,7 @@
 seiheki-jar/
 ├── README.md          ← このファイル
 └── site/
-    ├── index.html     ← メインページ（Netlify Drop でそのままドロップ）
+    ├── index.html     ← メインページ（GitHub Pages で公開）
     ├── style.css      ← スタイル
     └── main.js        ← ロジック・Canvas画像生成
 ```
@@ -17,31 +17,25 @@ seiheki-jar/
 
 ---
 
-## Netlify Drop でのデプロイ手順
+## GitHub Pages での公開
 
-1. ブラウザで [https://app.netlify.com/drop](https://app.netlify.com/drop) を開く
-2. `site/` フォルダをそのままドラッグ＆ドロップする
-3. デプロイが完了すると `xxxxx.netlify.app` 形式の URL が発行される
+公開URL:
+
+`https://kusataka.github.io/seiheki-jar/`
+
+公開フォルダは `site/` のみです。`master` にソース一式を push し、`site/` を `gh-pages` ブランチへ subtree push して公開します。
+
+```bash
+npm test
+git push origin master
+git subtree push --prefix site origin gh-pages
+```
 
 ---
 
-## デプロイ後の本番URL書き換え手順
+## 本番URL
 
-デプロイ後、`main.js` の冒頭の `SITE_URL` を実際の URL に更新してから **再ドロップ** する。
-
-1. `site/main.js` を開く
-2. 1行目の定数を書き換える:
-   ```js
-   // 変更前
-   const SITE_URL = "https://REPLACE-AFTER-DEPLOY.netlify.app/";
-   
-   // 変更後（実際に発行されたURLに置き換える）
-   const SITE_URL = "https://your-site-name.netlify.app/";
-   ```
-3. `site/` フォルダを再度 Netlify Drop にドラッグ＆ドロップする
-4. 同じサイト URL でアップデートが反映される
-
-`SITE_URL` はページフッターの表示と X 投稿テキストに使われます。
+`site/main.js` の `SITE_URL` と `site/index.html` の `og:url` は、GitHub Pages の公開URLに固定しています。`SITE_URL` はページフッターの表示と X 投稿テキストに使われます。
 
 ---
 
