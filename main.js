@@ -2,7 +2,7 @@
 const SITE_URL   = "https://rezu-katu.github.io/seiheki-jar/";
 const CREDIT     = "制作：レズセ相性ナビ（@rezu_katu）";
 const CREDIT_X_URL = "https://x.com/rezu_katu";
-const HASHTAG    = "#性癖の瓶 #レズビアン向け性癖の瓶";
+const HASHTAG    = "#性癖の瓶 #レズセ性癖の瓶";
 
 // Canvas描画用カラー定数（CSS変数と同期）
 const COL_DO   = "#4A90D9";
@@ -497,7 +497,7 @@ async function generateImage() {
   ctx.fillStyle = COL_INK;
   ctx.textAlign = "center";
   ctx.font = `900 52px 'Zen Maru Gothic', sans-serif`;
-  ctx.fillText("レズビアン向け性癖の瓶", W / 2, y + 52);
+  ctx.fillText("レズセ性癖の瓶", W / 2, y + 52);
   y += 80;
 
   // 凡例（左揃えで色付き部分を measureText で連結）
@@ -757,7 +757,7 @@ async function handleGenerate() {
 
 // ===== X投稿 =====
 async function handlePostX() {
-  const shareText = `レズビアン向け性癖の瓶、埋めてみた🫙\n\nみんなもここから作れるよ→ ${SITE_URL}\n\n@rezu_katu\n${HASHTAG}`;
+  const shareText = `レズセ性癖の瓶、埋めてみた🫙\n\nみんなもここから作れるよ→ ${SITE_URL}\n\n@rezu_katu\n${HASHTAG}`;
 
   if (!generatedBlob) {
     alert("先に「画像を作る」を押してね！");
