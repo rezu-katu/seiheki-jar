@@ -1,6 +1,6 @@
 # seiheki-jar — レズビアン向け性癖の瓶ジェネレーター
 
-制作：レズセがしたい女性の応援垢（[@rezu_katu](https://x.com/rezu_katu)）
+制作：レズセ相性ナビ（[@rezu_katu](https://x.com/rezu_katu)）
 
 ## ディレクトリ構成
 
