@@ -1,4 +1,4 @@
-# seiheki-jar — レズビアン向け性癖の瓶ジェネレーター
+# seiheki-jar — レズセ性癖の瓶ジェネレーター
 
 制作：レズセ相性ナビ（[@rezu_katu](https://x.com/rezu_katu)）
 
