@@ -466,7 +466,7 @@ async function generateImage() {
   const GRID_H = ROWS * JAR_CELL_H;
 
   const TITLE_BLOCK_H = 200;
-  const PROF_BLOCK_H  = 260;
+  const PROF_BLOCK_H  = 190;
   const FOOTER_H      = 80;
   const PAD_TOP = 60;
   const PAD_BTM = 60;

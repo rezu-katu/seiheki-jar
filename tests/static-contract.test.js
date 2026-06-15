@@ -21,6 +21,8 @@ assert.match(css, /--col-bg:\s*#0f0c10/i);
 assert.match(js, /#性癖の瓶 #レズビアン向け性癖の瓶/);
 assert.match(js, /@rezu_katu/);
 assert.match(js, /みんなもここから作れるよ→ \$\{SITE_URL\}\\n\\n@rezu_katu\\n\$\{HASHTAG\}/);
+assert.match(js, /const PROF_BLOCK_H\s+= 190;/);
+assert.match(html, /投稿画面では @rezu_katu とハッシュタグを消さないでね/);
 assert.doesNotMatch(js, /state\.level/);
 
 console.log("static contract ok");
