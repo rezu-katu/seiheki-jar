@@ -1,6 +1,6 @@
 // ===== 設定定数 =====
 const SITE_URL   = "https://rezu-katu.github.io/seiheki-jar/";
-const CREDIT     = "制作：レズセがしたい女性の応援垢（@rezu_katu）";
+const CREDIT     = "制作：レズセ相性ナビ（@rezu_katu）";
 const CREDIT_X_URL = "https://x.com/rezu_katu";
 const HASHTAG    = "#性癖の瓶 #レズビアン向け性癖の瓶";
 
