@@ -8,6 +8,11 @@ const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const html = read("site/index.html");
 const css = read("site/style.css");
 const js = read("site/main.js");
+const countArrayItems = (name) => {
+  const match = js.match(new RegExp(`const ${name} = \\[([\\s\\S]*?)\\];`));
+  assert.ok(match, `${name} should exist`);
+  return [...match[1].matchAll(/"[^"]*"/g)].length;
+};
 
 assert.match(js, /doLevel/);
 assert.match(js, /recvLevel/);
@@ -16,8 +21,15 @@ assert.match(js, /buildJarSVG/);
 assert.match(js, /drawJarCanvas/);
 assert.match(html, /id="do-level-panel"/);
 assert.match(html, /id="recv-level-panel"/);
+assert.match(html, /id="sheet-description"/);
 assert.match(css, /grid-template-columns:\s*repeat\(4,\s*1fr\)/);
+assert.match(css, /\.sheet-description/);
 assert.match(css, /--col-bg:\s*#0f0c10/i);
+assert.match(js, /const JAR_DESCRIPTIONS = \[/);
+assert.match(js, /説明：/);
+assert.match(js, /現実の無断行為は絶対NG/);
+assert.equal(countArrayItems("JAR_DESCRIPTIONS"), countArrayItems("JAR_LABELS"));
+assert.equal(countArrayItems("JAR_DESCRIPTIONS"), 28);
 assert.match(html, /レズセ性癖の瓶/);
 assert.match(js, /レズセ性癖の瓶/);
 assert.match(js, /#性癖の瓶 #レズセ性癖の瓶/);
