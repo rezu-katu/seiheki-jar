@@ -382,6 +382,18 @@ main {
   font-weight: 900;
 }
 
+.sheet-description {
+  margin: 2px 0 20px;
+  padding: 12px 14px;
+  border: 1px solid rgba(231, 198, 160, 0.26);
+  border-radius: 8px;
+  background: rgba(247, 238, 232, 0.055);
+  color: rgba(255, 245, 232, 0.84);
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.75;
+}
+
 .btn-close {
   background: none;
   border: none;
