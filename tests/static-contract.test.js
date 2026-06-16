@@ -22,6 +22,8 @@ assert.match(js, /drawJarCanvas/);
 assert.match(html, /id="do-level-panel"/);
 assert.match(html, /id="recv-level-panel"/);
 assert.match(html, /id="sheet-description"/);
+assert.match(html, /style\.css\?v=20260616-desc2/);
+assert.match(html, /main\.js\?v=20260616-desc2/);
 assert.match(css, /grid-template-columns:\s*repeat\(4,\s*1fr\)/);
 assert.match(css, /\.sheet-description/);
 assert.match(css, /--col-bg:\s*#0f0c10/i);
